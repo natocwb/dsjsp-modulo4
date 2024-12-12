@@ -32,13 +32,13 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public List<SaleWithSellerDTO> searchSales(String min, String max, String name) {
+	public Page<SaleWithSellerDTO> searchSales(String min, String max, String name,Pageable pageable) {
 		LocalDate minDate = convertStringToDate(min, "min");
 		LocalDate maxDate = convertStringToDate(max, "max");
 		if(name == null || name.isEmpty()) {
-			return repository.searchSales(minDate, maxDate);
+			return repository.searchSales(minDate, maxDate,pageable);
 		}
-		return repository.searchSales(minDate, maxDate,name);
+		return repository.searchSales(minDate, maxDate,name,pageable);
 	}
 
 	public List<SalesSumDTO> summarySales(String min, String max) {

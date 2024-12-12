@@ -15,9 +15,9 @@ import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("SELECT obj FROM Sale obj WHERE obj.date BETWEEN :min AND :max AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%',:sellerName,'%')) ORDER BY obj.seller.name DESC")
-    List<SaleWithSellerDTO> searchSales(LocalDate min, LocalDate max, String sellerName);
+    Page<SaleWithSellerDTO> searchSales(LocalDate min, LocalDate max, String sellerName, Pageable pageable);
     @Query("SELECT obj FROM Sale obj WHERE obj.date BETWEEN :min AND :max ORDER BY obj.seller.name DESC")
-    List<SaleWithSellerDTO> searchSales(LocalDate min, LocalDate max);
+    Page<SaleWithSellerDTO> searchSales(LocalDate min, LocalDate max, Pageable pageable);
 
     @Query("SELECT SUM(obj.amount) as amount , obj.seller.name as sellerName FROM Sale obj WHERE obj.date BETWEEN :min AND :max GROUP BY obj.seller.name")
     List<iSalesSumary> summarySales(LocalDate min, LocalDate max);
